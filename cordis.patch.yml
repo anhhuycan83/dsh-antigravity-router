@@ -1,0 +1,25 @@
+# Profile layer of dsh-antigravity-router.
+#
+# Inserts one Host row that scopes every Agent to a router policy plus a tool
+# allowlist. The Antigravity delegation tool itself comes from the
+# `dsh-subagent-antigravity` bundle, which must stay enabled.
+- insert:
+    - id: antigravity-router
+      name: 'dsh-antigravity-router'
+      config:
+        enabled: true
+        # Keep exactly the Antigravity delegation tool; add names here to widen
+        # the allowlist (the router tool always stays visible).
+        toolName: subagent_antigravity
+        allow:
+          - subagent_antigravity
+        # Sessions created after this row loads are routed immediately. Sessions
+        # already running keep their tools until they are recreated (a restart).
+        # Set true to mask live sessions the moment the row activates.
+        applyToLiveAgents: false
+        # A permanent backend failure (missing CLI, bad path, signed out,
+        # permission policy, incompatible output, generic process exit) lifts
+        # routing for that one session so the model can finish the job itself.
+        # quota / timeout / cancellation stay error-only. `never` = strict,
+        # `all` = lift on any failure.
+        fallback: permanent

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Antigravity Router",
+    "description": "Routes every session through the Antigravity CLI subagent: only subagent_antigravity stays visible and a router policy forbids doing the work directly."
+  }
+}
